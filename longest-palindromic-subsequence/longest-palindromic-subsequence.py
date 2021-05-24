@@ -1,6 +1,10 @@
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
-
+        if s == s[::-1]: #speed-hacks for LC submission time.
+            return len(s)
+        if len(s) == 1: 
+            return 1
+        
         @lru_cache(maxsize=None)
         def solve(i, j):
             if i == j:
@@ -14,7 +18,7 @@ class Solution:
 
         #res = solve(0, len(s) - 1)
         #solve.cache_clear()
-
+        
         dp = [[0 for _ in range(len(s))] for _ in range(len(s))]
         # we populate our table as writing the string same forwards and backwards
         #   c a t
@@ -30,7 +34,6 @@ class Solution:
                 else:
                     dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])
                     
-        res = dp[0][-1] #upper right diag represented by * as target
-        return res
+        return dp[0][-1] #upper right diag represented by * as target
         
             
