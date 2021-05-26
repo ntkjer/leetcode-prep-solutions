@@ -4,6 +4,10 @@ class Solution:
         Do not return anything, modify matrix in-place instead.
         Two approaches:
         One hacky and another with two methods that is cleaner and ideal in interview.
+        
+        The elegant solution which is left here is to realize 
+        that rotating a matrix by 90 === transpose + reverse.
+        
         """
         m, n = len(matrix), len(matrix[0])
 
