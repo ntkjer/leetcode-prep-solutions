@@ -27,40 +27,39 @@ class Solution:
 #                 j -= 1
 # 
 
-#         score = 0
-#         c_min = nums[k]
-#         for i in range(k, -1, -1):
-#             c_min = min(c_min, nums[i])
-#             nums[i] = c_min
-#         
-#         
-#         c_min = nums[k]
-#         for i in range(k, len(nums)):
-#             c_min = min(c_min, nums[i])
-#             nums[i] = c_min
-#         
-#         i, j = 0, len(nums) - 1
-#         while i <= k <= j:
-#             score = max(score, min(nums[i], nums[j]) * (j - i + 1))    
-# 
-#             if nums[i] < nums[j]:
-#                 i += 1
-#             else:
-#                 j -= 1 
-# 
-        stack = [-1]
         score = 0
-        for i, num in enumerate(nums + [0]):
-            while stack[-1] != -1 and num < nums[stack[-1]]:
-                top = stack.pop()
-                if not stack:
-                    break
-                height = nums[top]
-                width = i - stack[-1] - 1
-                if i > k and stack[-1] < k:
-                    score = max(score, height * width)    
-            stack.append(i)    
+        c_min = nums[k]
+        for i in range(k, -1, -1):
+            c_min = min(c_min, nums[i])
+            nums[i] = c_min
         
+        
+        c_min = nums[k]
+        for i in range(k, len(nums)):
+            c_min = min(c_min, nums[i])
+            nums[i] = c_min
+
+        i, j = 0, len(nums) - 1
+        while i <= k <= j:
+            score = max(score, min(nums[i], nums[j]) * (j - i + 1))    
+
+            if nums[i] < nums[j]:
+                i += 1
+            else:
+                j -= 1 
+
+#        stack = [-1]
+#        score = 0
+#        for i, num in enumerate(nums + [0]):
+#            while stack[-1] != -1 and num < nums[stack[-1]]:
+#                top = stack.pop()
+#                if not stack:
+#                    break
+#                height = nums[top]
+#                width = i - stack[-1] - 1
+#                if i > k and stack[-1] < k:
+#                    score = max(score, height * width)    
+#            stack.append(i)    
        #  while stack[-1] != -1:
        #      top = stack.pop()
        #      if not stack: break
