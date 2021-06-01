@@ -29,7 +29,20 @@ class Solution:
             else:
                 inorder_traverse(root, p)
 
-        solve(root, p)        
+        def solve_optimal(root, p):
+            """
+            Tn = O(lg n), as this takes advantage of BST property.
+            Above solutions are O(n) and work for general binary trees.
+            """
+            while root:
+                if p.val >= root.val:
+                    root = root.right
+                else:
+                    self.inorder_successor = root
+                    root = root.left
+
+        #solve(root, p)        
+        solve_optimal(root, p)
         return self.inorder_successor
 
             
