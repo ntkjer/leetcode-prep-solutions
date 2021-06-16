@@ -44,8 +44,8 @@ class Solution:
                     edgeless.append(child)
 
             edges_removed += 1
-                    
-        return list() if len(topological_order) != numCourses else topological_order
+
+        return list() if edges_removed != numCourses else topological_order
     
         
     def findOrder_DFS(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
