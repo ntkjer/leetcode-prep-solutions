@@ -14,6 +14,12 @@ class Solution:
                     return True
                 
             return False
-        
-        res = solve()
-        return res
+
+        # O(n) solution
+        last_position = N
+        for i in range(N - 1, -1, -1):
+            if (nums[i] + i) >= last_position:
+                last_position = i
+
+        return last_position == 0
+         
