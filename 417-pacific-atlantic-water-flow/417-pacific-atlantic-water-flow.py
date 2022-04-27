@@ -1,26 +1,24 @@
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        M, N = len(heights), len(heights[-1])
-        atl, pac = set(), set()
+        R, C = len(heights), len(heights[-1])
         
-        def dfs(r,c, visited, prev):
-            if (r, c) in visited or not(0 <= r < M) or not(0 <= c < N) or heights[r][c] < prev:
-                return 
-            visited.add((r,c))
-            dfs(r + 1, c, visited, heights[r][c])
-            dfs(r - 1, c, visited, heights[r][c])
-            dfs(r, c + 1, visited, heights[r][c])
-            dfs(r, c - 1, visited, heights[r][c])
-            
-        for c in range(N):
-            dfs(0, c, pac, heights[0][c])
-            dfs(M - 1, c, atl, heights[M - 1][c])
+        pac, atl = set(), set()
+        directions = ((1,0), (0,1), (-1,0), (0, -1))
         
+        def dfs(x, y, visited, prev):
+            if (x,y) in visited or not(0 <= x < R) or not(0 <= y < C) or heights[x][y] < prev:
+                return
+            
+            visited.add((x,y))
+            for dx,dy in directions:
+                dfs(x + dx, y + dy, visited, heights[x][y])
         
-        for r in range(M):
-            dfs(r, 0, pac, heights[r][0])
-            dfs(r, N - 1, atl, heights[r][N - 1])
-            
-
-            
-        return atl & pac
+        for r in range(R):
+            dfs(r, 0, atl, heights[r][0])
+            dfs(r, C - 1, pac, heights[r][C - 1])
+        
+        for c in range(C):
+            dfs(0, c, atl, heights[0][c])
+            dfs(R - 1, c, pac, heights[R - 1][c])
+        
+        return pac & atl
