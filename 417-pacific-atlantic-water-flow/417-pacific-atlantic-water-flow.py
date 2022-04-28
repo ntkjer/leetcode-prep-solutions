@@ -1,24 +1,27 @@
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        R, C = len(heights), len(heights[-1])
         
         pac, atl = set(), set()
-        directions = ((1,0), (0,1), (-1,0), (0, -1))
+        M, N = len(heights), len(heights[0])
         
         def dfs(x, y, visited, prev):
-            if (x,y) in visited or not(0 <= x < R) or not(0 <= y < C) or heights[x][y] < prev:
+            if (x,y) in visited or (not(0 <= x < M) or 
+                                    not(0 <= y < N) or 
+                                    heights[x][y] < prev):
                 return
-            
             visited.add((x,y))
-            for dx,dy in directions:
-                dfs(x + dx, y + dy, visited, heights[x][y])
-        
-        for r in range(R):
+            dfs(x + 1, y, visited, heights[x][y])
+            dfs(x, y + 1, visited, heights[x][y])
+            dfs(x - 1, y, visited, heights[x][y])
+            dfs(x, y - 1, visited, heights[x][y])
+                
+                
+        for r in range(M):
             dfs(r, 0, atl, heights[r][0])
-            dfs(r, C - 1, pac, heights[r][C - 1])
+            dfs(r, N - 1, pac, heights[r][N - 1])
         
-        for c in range(C):
+        for c in range(N):
             dfs(0, c, atl, heights[0][c])
-            dfs(R - 1, c, pac, heights[R - 1][c])
+            dfs(M - 1, c, pac, heights[M - 1][c])
         
         return pac & atl
