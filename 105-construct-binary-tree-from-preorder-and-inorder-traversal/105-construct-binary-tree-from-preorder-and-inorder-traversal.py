@@ -8,6 +8,7 @@ class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         d = {value:idx for idx, value in enumerate(inorder)}
         
+        
         def recur(preorder, inorder):
             if not preorder or not inorder:
                 return None
