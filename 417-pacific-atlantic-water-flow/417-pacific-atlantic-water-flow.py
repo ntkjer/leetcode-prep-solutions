@@ -1,27 +1,31 @@
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         
+        ROWS, COLS = len(heights), len(heights[0])
         pac, atl = set(), set()
-        M, N = len(heights), len(heights[0])
         
-        def dfs(x, y, visited, prev):
-            if (x,y) in visited or (not(0 <= x < M) or 
-                                    not(0 <= y < N) or 
-                                    heights[x][y] < prev):
+        def isValid(x, y, prev):
+            if (0 <= x < ROWS and 0 <= y < COLS and prev <= heights[x][y]):
+                return True
+            return False
+        
+        def dfs(x, y, prev, visited):
+            if (x,y) in visited or not isValid(x, y, prev):
                 return
-            visited.add((x,y))
-            dfs(x + 1, y, visited, heights[x][y])
-            dfs(x, y + 1, visited, heights[x][y])
-            dfs(x - 1, y, visited, heights[x][y])
-            dfs(x, y - 1, visited, heights[x][y])
-                
-                
-        for r in range(M):
-            dfs(r, 0, atl, heights[r][0])
-            dfs(r, N - 1, pac, heights[r][N - 1])
+            
+            visited.add((x, y))
+            curr = heights[x][y]
+            dfs(x + 1, y, curr, visited)
+            dfs(x, y + 1, curr, visited)
+            dfs(x - 1, y, curr, visited)
+            dfs(x, y - 1, curr, visited)
         
-        for c in range(N):
-            dfs(0, c, atl, heights[0][c])
-            dfs(M - 1, c, pac, heights[M - 1][c])
+        for r in range(ROWS):
+            dfs(r, 0, heights[r][0], atl)
+            dfs(r, COLS - 1, heights[r][COLS - 1], pac)
+        
+        for c in range(COLS):
+            dfs(0, c, heights[0][c], atl)
+            dfs(ROWS - 1, c, heights[ROWS - 1][c], pac)
         
         return pac & atl
