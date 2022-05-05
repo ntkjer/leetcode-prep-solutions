@@ -6,5 +6,5 @@ class Solution:
             curr = nums[i - 1]
             if i >= 2:
                 curr += dp[i - 2]
-            dp[i] = max(dp[i - 1], curr)
+            dp[i] = max(curr, dp[i - 1])
         return dp[-1]
