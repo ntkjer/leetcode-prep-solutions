@@ -7,12 +7,13 @@
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         
-        def count_levels(node) -> int:
+        def solve(node, depth=0):
             if not node:
-                return 0
+                return depth
             
-            return 1 + max(count_levels(node.left), count_levels(node.right))
+            if not node.left and not node.right:
+                return 1 + depth
+            
+            return 1 + max(solve(node.left, depth), solve(node.right, depth))
         
-        return count_levels(root)
-            
-            
+        return solve(root, 0)
