@@ -1,45 +1,44 @@
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        
-        trie = {}
-        end = "$"
         M, N = len(board), len(board[0])
-        result = set()
-        visit = set()
+        trie = {}
+        end = "#"
+        for w in words:
+            node = trie
+            for c in w:
+                if c not in node:
+                    node[c] = {}
+                node = node[c]
+            node[end] = True
         
-        for word in words:
-            curr = trie
-            for ch in word:
-                if ch not in curr:
-                    curr[ch] = {}
-                curr = curr[ch]
-            curr[end] = True
-    
-        def dfs(r, c, parent, word):
+        visit, res = set(), list()
+        
+        def dfs(r, c, parent, word=""):
+            if not(0 <= r < M) or not(0 <= c < N):
+                return
             
-            if (not(0 <= r < M) or not(0 <= c < N) or
-               (r,c) in visit or board[r][c] not in parent):
+            letter = board[r][c]
+            if letter not in parent or (r,c) in visit:
                 return
             
             visit.add((r,c))
-            letter = board[r][c]
-            node = parent[letter]
             
+            node = parent[letter]
             if end in node:
-                result.add(word + letter)
-                del node[end]
+                res.append(word + letter)
+                del node[end] # mark for deletion
                 
             dfs(r + 1, c, node, word + letter)
             dfs(r - 1, c, node, word + letter)
             dfs(r, c + 1, node, word + letter)
             dfs(r, c - 1, node, word + letter)
-            
             visit.remove((r,c))
+            
             if not node:
                 parent.pop(letter)
         
         for r in range(M):
             for c in range(N):
-                dfs(r, c, trie, "")
-                
-        return list(result)
+                dfs(r, c, trie)
+        
+        return res
