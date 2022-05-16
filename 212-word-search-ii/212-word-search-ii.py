@@ -4,7 +4,7 @@ class Solution:
         end = "$"
         dirs = [(1,0),(0,1),(-1,0),(0,-1)]        
         result = list()
-        visited = set()
+        
 
         M, N = len(board), len(board[-1])
 
@@ -20,18 +20,19 @@ class Solution:
         def backtrack(r, c, parent, prefix):
             letter = board[r][c]
             if letter in parent:
-                visited.add((r, c))    
+                board[r][c] = "#"
                 node = parent[letter]
-                if end in node:
+                match = node.pop(end, False)
+                if match:
                     result.append(prefix + letter)
-                    del node[end]
+                    #del node[end]
                     
                 for dx, dy in dirs:
                     x, y = r + dx, c + dy
-                    if 0 <= x < M and 0 <= y < N and (x, y) not in visited:
+                    if 0 <= x < M and 0 <= y < N and board[x][y] != "#" and board[x][y] in node:
                         backtrack(x, y, node, prefix + letter)
-                visited.remove((r, c))
-
+                        
+                board[r][c] = letter
                 #optimize by removing matched leaf nodes from trie
                 if not node:
                     parent.pop(letter)
