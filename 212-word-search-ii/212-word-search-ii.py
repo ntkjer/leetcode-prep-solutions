@@ -12,11 +12,16 @@ class Solution:
             node[end] = True
         
         visit, res = set(), list()
+        directions = [(1,0), (-1, 0), (0, 1), (0, -1)]
+        
+        def validPos(x,y):
+            if not(0 <= x < M) or not(0 <= y < N):
+                return False
+            return True
         
         def dfs(r, c, parent, word=""):
-            if not(0 <= r < M) or not(0 <= c < N):
-                return
-            
+            if not validPos(r,c):
+                return  
             letter = board[r][c]
             if letter not in parent or (r,c) in visit:
                 return
@@ -27,15 +32,15 @@ class Solution:
             if end in node:
                 res.append(word + letter)
                 del node[end] # mark for deletion
-                
-            dfs(r + 1, c, node, word + letter)
-            dfs(r - 1, c, node, word + letter)
-            dfs(r, c + 1, node, word + letter)
-            dfs(r, c - 1, node, word + letter)
+            for dx, dy in directions:
+                x, y = dx + r, dy + c
+                if validPos(x,y) and (x,y) not in visit:
+                    dfs(x, y, node, word + letter)
+                    
             visit.remove((r,c))
-            
             if not node:
                 parent.pop(letter)
+        
         
         for r in range(M):
             for c in range(N):
