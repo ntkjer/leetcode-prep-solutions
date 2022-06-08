@@ -1,8 +1,9 @@
 class Solution:
     def reverseBits(self, n: int) -> int:
-        result, power = 0, 31
+        power = 31
+        res = 0
         while n:
-            result += (n & 1) << power
+            res += (n & 1) << power
             n >>= 1
             power -= 1
-        return result
+        return res
