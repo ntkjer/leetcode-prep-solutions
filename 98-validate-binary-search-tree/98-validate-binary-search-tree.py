@@ -12,8 +12,6 @@ class Solution:
                 return True
             if not (lo < node.val < hi):
                 return False
-            if node.val > hi or node.val < lo:
-                return False       
             
             return solve(node.left, lo, node.val) and solve(node.right, node.val, hi)
                 
