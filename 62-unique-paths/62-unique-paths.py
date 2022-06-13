@@ -1,11 +1,11 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        if n > m:
-            n,m = m, n
+        if m > n:
+            return self.uniquePaths(n, m)
+        
+        paths = [1] * n
+        for i in range(1, m):
+            for j in range(1, n):
+                paths[j] += paths[j - 1]
             
-        dp = [1] * n
-        for _ in range(1, m):
-            for i in range(1, n):
-                dp[i] += dp[i - 1]
-                    
-        return dp[-1]
+        return paths[-1]
