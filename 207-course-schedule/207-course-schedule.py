@@ -1,29 +1,29 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        adj = {i: [] for i in range(numCourses)}
+        
+        for pre,course in prerequisites:
+            adj[course].append(pre)
+        
         visit = set()
-        courses = {i: [] for i in range(numCourses)}
-        
-        for prereq, course in prerequisites:
-            if course not in courses:
-                courses[course] = []
-            courses[course].append(prereq)
-        
         
         def dfs(course):
             if course in visit:
                 return False
-            if not courses[course]:
+            if not adj[course]:
                 return True
             visit.add(course)
-            for nei in courses[course]:
+                
+            for nei in adj[course]:
                 if not dfs(nei):
                     return False
+            adj[course] = []
             visit.remove(course)
-            courses[course] = []
             return True
         
-    
         for course in range(numCourses):
-            if not dfs(course): 
-                return False
+            if not dfs(course): return False
         return True
+                
+        
+        
