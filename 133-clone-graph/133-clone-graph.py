@@ -8,7 +8,6 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
-        
         visited = {}
         
         def dfs(node):
@@ -17,13 +16,12 @@ class Solution:
             
             curr = Node(node.val)
             visited[node] = curr
-            
-            for neighbor in node.neighbors:
-                curr.neighbors.append(dfs(neighbor))
+            for nei in node.neighbors:
+                curr.neighbors.append(dfs(nei))
             
             return curr
         
         if not node:
             return node
-        res = dfs(node)
+        dfs(node)
         return visited[node]
