@@ -1,24 +1,18 @@
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        
-        ROWS, COLS = len(heights), len(heights[0])
         pac, atl = set(), set()
         
-        def isValid(x, y, prev):
-            if (0 <= x < ROWS and 0 <= y < COLS and prev <= heights[x][y]):
-                return True
-            return False
+        ROWS, COLS = len(heights), len(heights[-1])
         
-        def dfs(x, y, prev, visited):
-            if (x,y) in visited or not isValid(x, y, prev):
+        def dfs(r, c, prev, visit):
+            if (r,c) in visit or not(0 <= r < ROWS) or not(0 <= c < COLS) or heights[r][c] < prev:
                 return
-            
-            visited.add((x, y))
-            curr = heights[x][y]
-            dfs(x + 1, y, curr, visited)
-            dfs(x, y + 1, curr, visited)
-            dfs(x - 1, y, curr, visited)
-            dfs(x, y - 1, curr, visited)
+            visit.add((r,c))
+            dfs(r + 1, c, heights[r][c], visit)
+            dfs(r, c + 1, heights[r][c], visit)
+            dfs(r - 1, c, heights[r][c], visit)
+            dfs(r, c - 1, heights[r][c], visit)
+            return
         
         for r in range(ROWS):
             dfs(r, 0, heights[r][0], atl)
@@ -29,3 +23,5 @@ class Solution:
             dfs(ROWS - 1, c, heights[ROWS - 1][c], pac)
         
         return pac & atl
+    
+        
