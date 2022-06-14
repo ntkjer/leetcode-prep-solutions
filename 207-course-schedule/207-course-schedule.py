@@ -5,24 +5,29 @@ class Solution:
         for pre,course in prerequisites:
             adj[course].append(pre)
         
-        visit = set()
+        visit = [False] * numCourses
+        path = [False] * numCourses
         
         def dfs(course):
-            if course in visit:
+            if visit[course]:
                 return False
-            if not adj[course]:
+            
+            if path[course]:
                 return True
-            visit.add(course)
-                
+            
+            visit[course] = True
+            path[course] = False
             for nei in adj[course]:
                 if not dfs(nei):
                     return False
-            adj[course] = []
-            visit.remove(course)
+                
+            path[course] = True
+            visit[course] = False
             return True
         
         for course in range(numCourses):
             if not dfs(course): return False
+            
         return True
                 
         
