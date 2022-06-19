@@ -3,27 +3,28 @@ class Solution:
         
         window = {}
         target = Counter(t)
-        result = float('inf'), 0, 0
-        desired, found = len(target), 0
-        
         l = 0
+        res = float('inf'), 0, 0
+        found, desired = 0, len(target)
+        
         for r in range(len(s)):
             char = s[r]
-            window[char] = window.get(char, 0) +  1
+            window[char] = window.get(char, 0) + 1
             
             if char in target and window[char] == target[char]:
                 found += 1
-            
+
             while l <= r and found == desired:
-                if (r - l + 1) < result[0]:
-                    result = (r - l + 1), l, r
+
+                if (r - l + 1) < res[0]:
+                    res = (r - l + 1), l, r
                     
-                start_char = s[l]
-                window[start_char] -= 1
+                start = s[l]
+                window[start] -= 1
                 
-                if start_char in target and window[start_char] < target[start_char]:
+                if start in target and window[start] < target[start]:
                     found -= 1
                     
                 l += 1
-        
-        return "" if result[0] == float('inf') else s[result[1] : result[2] + 1]
+    
+        return "" if res[0] == float('inf') else s[res[1]: res[2] + 1]                
