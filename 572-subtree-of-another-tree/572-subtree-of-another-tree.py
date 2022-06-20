@@ -6,13 +6,13 @@
 #         self.right = right
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        def solve(node, subNode):
-            if not node and not subNode:
+        
+        def solve(root, node):
+            if not root and not node:
                 return True
-            if not node or not subNode:
+            if not root or not node:
                 return False
-            return node.val == subNode.val and solve(node.left, subNode.left) and solve(node.right, subNode.right)
-            
+            return root.val == node.val and solve(root.left, node.left) and solve(root.right, node.right)
         
         if solve(root, subRoot):
             return True
