@@ -1,11 +1,10 @@
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         ROWS, COLS = len(board), len(board[-1])
+        visit = set()
         
         trie = {}
         end = "$"
-        visit = set()
-        res = list()
         
         for word in words:
             node = trie
@@ -15,32 +14,38 @@ class Solution:
                 node = node[ch]
             node[end] = True
         
+        res = list()
         
-        def dfs(r, c, prefix, parent):
-            if (r,c) in visit or not(0 <= r < ROWS) or not(0 <= c < COLS) or board[r][c] not in parent:
+        def dfs(r, c, parent, word):
+            if (r,c) in visit or not(0 <= r < ROWS) or not(0 <= c < COLS):
                 return False
-
+            
+            curr = board[r][c]
+            if curr not in parent:
+                return False
+            
+            node = parent[curr]
             
             visit.add((r,c))
-            letter = board[r][c]
             
-            node = parent[letter]
             match = node.pop(end, False)
-            if match: 
-                res.append(prefix + letter)
-            dfs(r + 1, c, prefix + letter, node)
-            dfs(r - 1, c, prefix + letter, node)
-            dfs(r, c + 1, prefix + letter, node)
-            dfs(r, c - 1, prefix + letter, node)
-            if not node:
-                parent.pop(letter)
+            if match:
+                res.append(word+curr)
+                
+            dfs(r + 1, c, node, word+curr)
+            dfs(r, c + 1, node, word+curr)
+            dfs(r - 1, c, node, word+curr)
+            dfs(r, c - 1, node, word+curr)
+            
             visit.remove((r,c))
-            return True
+            if not node:
+                parent.pop(curr)
+                
+        
         
         for r in range(ROWS):
             for c in range(COLS):
-                dfs(r, c, "", trie)
+                root = trie
+                dfs(r, c, root, "")
         
         return res
-                
-        
