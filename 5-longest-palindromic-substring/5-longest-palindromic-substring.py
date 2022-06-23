@@ -1,21 +1,17 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        if s == s[::-1] or len(s) < 2:
-            return s
+        def getLongest(i,j):
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                j += 1
+                i -= 1
+            return s[i + 1: j]
         
-        dp = [[False for _ in range(len(s))] for _ in range(len(s))]
-        res = ""
-        
+        longest = ""
         for i in range(len(s)):
-            dp[i][i] = True
-            res = s[i]
-        
-        for i in range(len(dp) - 1, -1, -1):
-            for j in range(i + 1, len(dp)):
-                if s[i] == s[j]:
-                    if dp[i + 1][j - 1] or j - i == 1:
-                        dp[i][j] = True
-                        if j - i + 1 > len(res):
-                            res = s[i: j + 1]
-        
-        return res
+            even, odd = getLongest(i, i), getLongest(i, i + 1)
+            if len(even) > len(longest):
+                longest = even
+            if len(odd) > len(longest):
+                longest = odd
+                
+        return longest
