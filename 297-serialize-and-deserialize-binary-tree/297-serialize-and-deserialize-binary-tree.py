@@ -18,16 +18,13 @@ class Codec:
             if not node:
                 res.append("None")
                 return
-            
             res.append(str(node.val))
             dfs(node.left)
             dfs(node.right)
             return
-        
         dfs(root)
         return ",".join(res)
-        
-
+    
     def deserialize(self, data):
         """Decodes your encoded data to tree.
         
@@ -36,22 +33,21 @@ class Codec:
         """
         self.idx = 0
         data = data.split(",")
-        def solve():
-    
+        def dfs():
+            if self.idx >= len(data):
+                return
             if data[self.idx] == "None":
                 self.idx += 1
                 return None
-           
+            
             curr = TreeNode(int(data[self.idx]))
             self.idx += 1
-            curr.left = solve()
-            curr.right = solve()
-                
+            curr.left = dfs()
+            curr.right = dfs()
             return curr
         
-        res = solve()
+        res = dfs()
         return res
-
 # Your Codec object will be instantiated and called as such:
 # ser = Codec()
 # deser = Codec()
