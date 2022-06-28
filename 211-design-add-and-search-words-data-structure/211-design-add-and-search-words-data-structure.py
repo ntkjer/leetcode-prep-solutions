@@ -22,8 +22,8 @@ class WordDictionary:
             for idx, ch in enumerate(word):
                 if ch not in node.children:
                     if ch == ".":
-                        for key in node.children:
-                            if search_in_node(node.children[key], word[idx + 1:]):
+                        for child in node.children:
+                            if child != node.end and search_in_node(node.children[child], word[idx + 1:]):
                                 return True
                     return False
                 node = node.children[ch]
