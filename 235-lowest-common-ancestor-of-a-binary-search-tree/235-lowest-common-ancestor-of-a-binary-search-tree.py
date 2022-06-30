@@ -9,10 +9,10 @@ class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         
         def solve(node, p, q):
-            if node.val > p.val and node.val > q.val:
-                return solve(node.left, p, q)
-            elif node.val < p.val and node.val < q.val:
+            if p.val > node.val and q.val > node.val:
                 return solve(node.right, p, q)
+            elif p.val < node.val and q.val < node.val:
+                return solve(node.left, p, q)
             else:
                 return node
             
@@ -21,4 +21,3 @@ class Solution:
             return res
         else:
             return self.lowestCommonAncestor(root.left, p, q) or self.lowestCommonAncestor(root.right, p, q)
-            
