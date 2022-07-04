@@ -8,32 +8,30 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        # find the ending node and halfway point
-        slow = head
-        fast = head.next
+        # split list in half using 2 pointers 
+        # reverse second half
+        # merge first and second
+        dummy = ListNode(next=head)
+        
+        slow, fast = head, head.next
         while fast and fast.next:
-            slow, fast = slow.next, fast.next.next
+            slow = slow.next
+            fast = fast.next.next
         
         second = slow.next
-        
-        prev = slow.next = None
-        
+        slow.next = None
+        prev = None
         while second:
             tmp = second.next
             second.next = prev
             prev = second
             second = tmp
-        
-        first, second = head, prev
+        first = dummy.next
+        second = prev
         
         while first and second:
             tmp1, tmp2 = first.next, second.next
             first.next = second
             second.next = tmp1
-            
             first, second = tmp1, tmp2
-     
             
-        
-        
-        
