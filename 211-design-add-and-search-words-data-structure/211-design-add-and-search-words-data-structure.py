@@ -1,9 +1,10 @@
 class TrieNode:
+    
     def __init__(self, key=""):
-        self.val = key
+        self.key = key
         self.children = {}
         self.end = False
-        
+
 class WordDictionary:
 
     def __init__(self):
@@ -18,18 +19,20 @@ class WordDictionary:
         root.end = True
 
     def search(self, word: str) -> bool:
-        def search_in_node(node, word):
+
+        def search_node(node, word):
             for idx, ch in enumerate(word):
                 if ch not in node.children:
                     if ch == ".":
                         for child in node.children:
-                            if child != node.end and search_in_node(node.children[child], word[idx + 1:]):
+                            if child != node.end and search_node(node.children[child], word[idx + 1:]):
                                 return True
                     return False
                 node = node.children[ch]
             return node.end
         
-        return search_in_node(self.root, word)
+        return search_node(self.root, word)
+
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
