@@ -6,6 +6,6 @@ class Solution:
             if nums[mid] > nums[hi]:
                 lo = mid + 1
             else:
-                hi = mid 
+                hi = mid
                 
         return nums[lo]
