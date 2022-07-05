@@ -8,8 +8,7 @@ class Solution:
             idx += 1
         
         while idx < N:
-            if (intervals[idx][0] <= newInterval[0] <= intervals[idx][1] or 
-                intervals[idx][1] <= newInterval[1] or intervals[idx][0] <= newInterval[1]):
+            if (intervals[idx][1] <= newInterval[1] or intervals[idx][0] <= newInterval[1]):
                 newInterval = min(newInterval[0], intervals[idx][0]), max(newInterval[1], intervals[idx][1])
                 idx += 1
             else:
