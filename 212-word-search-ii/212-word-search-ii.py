@@ -1,11 +1,11 @@
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        res = list()
-        rows, cols = len(board), len(board[-1])
-        visit = set()
         
         trie = {}
-        end = "$"
+        end = "#"
+        res = list()
+        rows, cols = len(board), len(board[0])
+        visit = set()
         
         for word in words:
             root = trie
@@ -15,34 +15,34 @@ class Solution:
                 root = root[ch]
             root[end] = True
         
-        def dfs(r, c, word, parent):
-            if (r, c) in visit or not(0 <= r < rows) or not(0 <= c < cols):
-                return 
+        def dfs(r, c, parent, prefix):
+            if (r, c) in visit or not(0 <= r < rows) or not (0 <= c < cols):
+                return False
+            
             letter = board[r][c]
             if letter not in parent:
-                return
+                return False
             
-            node = parent[letter]
-            visit.add((r, c))
-            match = node.pop(end, False)
-            
-            if match:
-                res.append(word + letter)
-                
-                
-            dfs(r + 1, c, word + letter, node)
-            dfs(r, c + 1, word + letter, node)
-            dfs(r, c - 1, word + letter, node)
-            dfs(r - 1, c, word + letter, node)
-            
+            curr = parent[letter]
+            isMatch = curr.pop(end, False)
+            if isMatch:
+                res.append(prefix + letter)
+                            
+            visit.add((r,c))
+            dfs(r + 1, c, curr, prefix + letter)
+            dfs(r, c + 1, curr, prefix + letter)
+            dfs(r - 1, c, curr, prefix + letter)
+            dfs(r, c - 1, curr, prefix + letter)
+
             visit.remove((r,c))
-            if not node:
+            if not curr:
                 parent.pop(letter)
+                
             
         
         for r in range(rows):
             for c in range(cols):
                 root = trie
-                dfs(r, c, "", root)
-                
+                dfs(r, c, root, "")
+        
         return res
