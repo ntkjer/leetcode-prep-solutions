@@ -18,7 +18,6 @@ class Solution:
                 return "Neither"
             hexadigits = "0123456789abcdefABCDEF"
             hexa = set(digit for digit in hexadigits)
-            print(hexa)
             for x in nums:
                 if len(x) == 0 or len(x) > 4:
                     return "Neither"
