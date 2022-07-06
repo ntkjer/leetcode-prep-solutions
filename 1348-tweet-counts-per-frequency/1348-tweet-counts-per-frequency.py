@@ -1,35 +1,28 @@
 class TweetCounts:
 
     def __init__(self):
-        self.data = collections.defaultdict(list)
+        self.tweets = collections.defaultdict(list)
 
     def recordTweet(self, tweetName: str, time: int) -> None:
-        bisect.insort(self.data[tweetName], time) 
-        
+        bisect.insort(self.tweets[tweetName], time)
+
     def getTweetCountsPerFrequency(self, freq: str, tweetName: str, startTime: int, endTime: int) -> List[int]:
-        minute = 60
-        hour = minute * 60
-        day = hour * 24
-        period = 0
+        period = 60
+        if freq == "hour":
+            period *= 60
+        elif freq == "day":
+            period *= 60 * 24
         
-        if freq == "minute":
-            period = minute
-        elif freq == "hour":
-            period = hour
-        else:
-            period = day
+        res = [0] * ((endTime - startTime) // period + 1)
         
-        result = [0] * ((endTime - startTime) // period + 1)
-        start = bisect.bisect_left(self.data[tweetName], startTime)
-        end = bisect.bisect_right(self.data[tweetName], endTime)
+        start_idx = bisect.bisect_left(self.tweets[tweetName], startTime)
+        end_idx = bisect.bisect_right(self.tweets[tweetName], endTime)
         
-        for i in range(start, end):
-            ts = (self.data[tweetName][i] - startTime) // period
-            result[ts] += 1
+        for i in range(start_idx, end_idx):
+            ts = (self.tweets[tweetName][i] - startTime) // period
+            res[ts] += 1
             
-        return result
-        
-        
+        return res
 
 
 # Your TweetCounts object will be instantiated and called as such:
