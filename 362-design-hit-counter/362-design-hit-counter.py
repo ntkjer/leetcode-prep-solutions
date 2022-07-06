@@ -1,21 +1,16 @@
 class HitCounter:
 
     def __init__(self):
-        self.data = {}
+        self.data = collections.deque()
 
     def hit(self, timestamp: int) -> None:
-        if timestamp not in self.data:
-            self.data[timestamp] = 0    
-        self.data[timestamp] += 1
+        self.data.append(timestamp)
         
     def getHits(self, timestamp: int) -> int:
         period = 60 * 5
-        res = 0
-        for ts in self.data.keys():
-            if timestamp - period < ts <= timestamp:
-                res += self.data[ts]
-                
-        return res
+        while self.data and timestamp - self.data[0] >= period:
+            self.data.popleft()
+        return len(self.data)
 
 # Your HitCounter object will be instantiated and called as such:
 # obj = HitCounter()
