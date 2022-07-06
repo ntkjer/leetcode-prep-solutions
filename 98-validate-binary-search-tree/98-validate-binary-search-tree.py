@@ -7,16 +7,13 @@
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         
-        def solve(node, lo=float('-inf'), hi=float('inf')):
+        def solve(node, lo=float("-inf"), hi=float("inf")):
             if not node:
                 return True
             if not (lo < node.val < hi):
                 return False
             
             return solve(node.left, lo, node.val) and solve(node.right, node.val, hi)
-                
-            
-            
         
-        return solve(root)
-        
+        res = solve(root)
+        return res
