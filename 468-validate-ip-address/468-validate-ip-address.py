@@ -17,11 +17,13 @@ class Solution:
             if len(nums) < 8:
                 return "Neither"
             hexadigits = "0123456789abcdefABCDEF"
+            hexa = set(digit for digit in hexadigits)
+            print(hexa)
             for x in nums:
                 if len(x) == 0 or len(x) > 4:
                     return "Neither"
-                if not all(c in hexadigits for c in x):
-                    return "Neither"
+                for c in x:
+                    if c not in hexa: return "Neither"
             return "IPv6"
         
         if queryIP.count('.') == 3:
