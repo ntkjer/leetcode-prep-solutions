@@ -1,28 +1,31 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        directions = [(1,0), (-1,0), (0,1), (0,-1)]
         
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-        visited = set()
-        ROWS, COLS = len(grid), len(grid[-1])
-        count = 0
+        res = 0
+        
+        visit = set()
+        rows, cols = len(grid), len(grid[-1])
         WATER, LAND = "0", "1"
         
-        
-        def dfs(r,c):
-            if (r,c) in visited:
+        def dfs(r, c):
+            if (r,c) in visit:
+                return
+            if not (0 <= r < rows) or not (0 <= c < cols):
+                return
+            if grid[r][c] == WATER:
                 return
             
-            visited.add((r,c))
+            visit.add((r,c))
             for dx, dy in directions:
-                x, y = r + dx, c + dy
-                if 0 <= x < ROWS and 0 <= y < COLS and grid[x][y] is LAND:
-                    dfs(x, y)
-            return
+                dfs(dx + r, dy + c)
+            
+            return 
         
-        for r in range(ROWS):
-            for c in range(COLS):
-                if grid[r][c] is LAND and (r,c) not in visited:
-                    count += 1
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == LAND and (r,c) not in visit:
+                    res += 1
                     dfs(r, c)
-        
-        return count
+        return res
+                    
