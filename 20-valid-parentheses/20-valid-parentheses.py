@@ -1,19 +1,15 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        parens = { ')': '(', '}': '{', ']': '['}
+        closing = {")": "(", "}": "{", "]": "["}
         
         stack = []
-        for c in s:
-            if c not in parens:
-                stack.append(c)
-            else:
-                if not stack:
-                    return False
-                if parens[c] != stack[-1]:
+        for ch in s:
+            if stack and ch in closing:
+                if stack[-1] != closing[ch]:
                     return False
                 stack.pop()
-                
-        if stack:
-            return False
+            else:
+                stack.append(ch)
         
-        return True
+        print(stack)
+        return True if not stack else False
