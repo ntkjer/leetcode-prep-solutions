@@ -8,20 +8,22 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
-        visited = {}
+        visit = {}
         
         def dfs(node):
-            if node in visited:
-                return visited[node]
+            if not node: return
+            if node in visit:
+                return visit[node]
             
             curr = Node(node.val)
-            visited[node] = curr
+            visit[node] = curr
             for nei in node.neighbors:
                 curr.neighbors.append(dfs(nei))
             
             return curr
         
-        if not node:
-            return node
         dfs(node)
-        return visited[node]
+        if len(visit) >= 1:
+            return visit[node]
+        else:
+            return None
