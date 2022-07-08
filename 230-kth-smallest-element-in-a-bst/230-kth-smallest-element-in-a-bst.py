@@ -9,7 +9,7 @@ class Solution:
         heap = []
         def traverse(node):
             if not node:
-                return 
+                return
             heappush(heap, node.val)
             traverse(node.left)
             traverse(node.right)
@@ -17,7 +17,7 @@ class Solution:
         
         traverse(root)
         
-        res = 0
-        for _ in range(1, k + 1):  
-            res = heappop(heap)
-        return res
+        for _ in range(k - 1):
+            heappop(heap)
+            
+        return heap[0]
