@@ -1,38 +1,36 @@
 class Solution:
     def alienOrder(self, words: List[str]) -> str:
-        
         graph = {c: set() for word in words for c in word}
         
+        res = list()
         for i in range(len(words) - 1):
-            word1, word2 = words[i], words[i + 1]
-            minLength = min(len(word1), len(word2))
-            if len(word1) > len(word2) and word1[:minLength] == word2[:minLength]:
+            w1, w2 = words[i], words[i + 1]
+            minLength = min(len(w1), len(w2))
+            
+            if len(w1) > len(w2) and w1[:minLength] == w2[:minLength]: 
                 return ""
             for j in range(minLength):
-                if word1[j] != word2[j]:
-                    graph[word1[j]].add(word2[j])
+                if w1[j] != w2[j]:    
+                    graph[w1[j]].add(w2[j])
                     break
-                    
-        res = list()
+        
         visit = {}
         
-        def dfs(char):
-            if char in visit:
-                return visit[char]
+        def dfs(node):
+            if node in visit:
+                return visit[node]
             
-            visit[char] = True
-            
-            for nei in graph[char]:
-                if dfs(nei): 
+            visit[node] = True
+            for nei in graph[node]:
+                if dfs(nei):
                     return True
-                
-            res.append(char)
-            visit[char] = False
-   
+            res.append(node)
+            visit[node] = False
         
-        for char in graph:
-            if dfs(char): return ""
-    
-        res.reverse()        
+        for c in graph:
+            if dfs(c): 
+                return ""
+        
+        res.reverse()
+        
         return "".join(res)
-        
