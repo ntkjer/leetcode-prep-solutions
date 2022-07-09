@@ -3,10 +3,13 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        left, right = 0, len(matrix) - 1
+        left = 0
+        right = len(matrix) - 1
+        
         while left < right:
             top, bottom = left, right
-            for i in range(right - left):
+            
+            for i in range(bottom - top):
                 
                 topLeft = matrix[top][left + i]
                 
@@ -18,4 +21,6 @@ class Solution:
                 
                 matrix[top + i][right] = topLeft
                 
+                
             left, right = left + 1, right - 1
+        
