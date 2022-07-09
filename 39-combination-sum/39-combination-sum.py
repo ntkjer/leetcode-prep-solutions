@@ -2,20 +2,17 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = list()
         
-        def solve(idx, curr, partial):
-            if idx == len(candidates): 
+        def solve(idx, partial, curr):
+            if idx >= len(candidates) or curr > target:
                 return
             if curr == target:
                 res.append(partial[:])
                 return
-            if curr >= target:
-                return 
-            
             partial.append(candidates[idx])
-            solve(idx, curr + candidates[idx], partial)
+            solve(idx, partial, curr + candidates[idx])
             partial.pop()
-            solve(idx + 1, curr, partial)
-            
+            solve(idx + 1, partial, curr)
+            return
         
-        solve(0, 0, [])
+        solve(0, [], 0)
         return res
