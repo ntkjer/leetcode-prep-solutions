@@ -1,16 +1,21 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         
-        res = [1] * len(nums)
-        cumulative = 1
-        for i in range(len(nums) - 2, -1, -1):
-            cumulative *= nums[i + 1]
-            res[i] *= cumulative
+        # left, right products
+        # res[i] = left(i) * right(i)
         
-        cumulative = 1
-        for i in range(1, len(nums)):
-            cumulative *= nums[i - 1]
-            res[i] = res[i] * cumulative
-                
-            
+        left = [1] * len(nums)
+        right = [1] * len(nums)
+        res = list()
+        
+        n = len(nums) - 1
+        for i in range(n - 1, -1, -1):
+            right[i] = right[i + 1] * nums[i + 1]
+        
+        for i in range(1, n + 1):
+            left[i] = left[i - 1] * nums[i - 1]
+        
+        for i in range(n + 1):
+            res.append(left[i] * right[i])
+        
         return res
