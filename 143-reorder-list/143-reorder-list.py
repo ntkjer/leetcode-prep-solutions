@@ -9,7 +9,7 @@ class Solution:
         Do not return anything, modify head in-place instead.
         """
         dummy = ListNode(next = head)
-        slow, fast = head, head.next
+        slow, fast = head, head
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
