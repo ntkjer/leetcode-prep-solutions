@@ -1,10 +1,11 @@
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         
-        trie = {}
-        end = "#"
         res = list()
-        rows, cols = len(board), len(board[0])
+        rows, cols = len(board), len(board[-1])
+        
+        trie = {}
+        end = "$"
         visit = set()
         
         for word in words:
@@ -15,34 +16,35 @@ class Solution:
                 root = root[ch]
             root[end] = True
         
-        def dfs(r, c, parent, prefix):
-            if (r, c) in visit or not(0 <= r < rows) or not (0 <= c < cols):
+        def backtrack(r, c, word, parent):
+            if (r, c) in visit or not(0 <= r < rows) or not(0 <= c < cols):
                 return False
-            
             letter = board[r][c]
             if letter not in parent:
                 return False
             
-            curr = parent[letter]
-            isMatch = curr.pop(end, False)
+            visit.add((r, c))
+            node = parent[letter]
+            isMatch = node.pop(end, False)
+            
             if isMatch:
-                res.append(prefix + letter)
-                            
-            visit.add((r,c))
-            dfs(r + 1, c, curr, prefix + letter)
-            dfs(r, c + 1, curr, prefix + letter)
-            dfs(r - 1, c, curr, prefix + letter)
-            dfs(r, c - 1, curr, prefix + letter)
-
-            visit.remove((r,c))
-            if not curr:
-                parent.pop(letter)
+                res.append(word + letter)
                 
+            backtrack(r + 1, c, word + letter, node)
+            backtrack(r, c + 1, word + letter, node)
+            backtrack(r - 1, c, word + letter, node)
+            backtrack(r, c - 1, word + letter, node)
+            
+            visit.remove((r,c))
+            
+            if not node:
+                parent.pop(letter)
+                return
             
         
         for r in range(rows):
             for c in range(cols):
                 root = trie
-                dfs(r, c, root, "")
-        
+                backtrack(r, c, "", root)
+                
         return res
