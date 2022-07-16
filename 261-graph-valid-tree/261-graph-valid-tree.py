@@ -19,5 +19,5 @@ class Solution:
                 dfs(nei)
         
         dfs(0)
-        return len(visit) >= n
+        return len(visit) == n
         
