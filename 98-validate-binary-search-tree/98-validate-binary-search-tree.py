@@ -7,7 +7,7 @@
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         
-        def solve(node, lo=float("-inf"), hi=float("inf")):
+        def solve(node, lo, hi):
             if not node:
                 return True
             if not (lo < node.val < hi):
@@ -15,5 +15,5 @@ class Solution:
             
             return solve(node.left, lo, node.val) and solve(node.right, node.val, hi)
         
-        res = solve(root)
-        return res
+        return solve(root, float('-inf'), float('inf'))
+    
