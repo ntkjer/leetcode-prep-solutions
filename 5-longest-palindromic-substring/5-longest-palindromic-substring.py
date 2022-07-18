@@ -1,18 +1,20 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         
-        dp = [[False for _ in range(len(s))] for _ in range(len(s))]
-        res = ""
+        def makePalindrome(i, j):
+            # given two indices i,j create the shortest palindrome and return it.
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                i -= 1
+                j += 1
+                
+            return s[i + 1: j]
         
-        for i in range(len(dp)):
-            dp[i][i] = True
-            res = s[i]
-            
-        for i in range(len(dp) - 1, -1, -1):
-            for j in range(i + 1, len(dp)):
-                if s[i] == s[j] and (dp[i + 1][j - 1] or j - i == 1):
-                    dp[i][j] = True
-                    if (j - i + 1) > len(res):
-                        res = s[i: j + 1]
-                    
+        res = ""
+        for i in range(len(s)):
+            palA, palB = makePalindrome(i, i), makePalindrome(i, i + 1)
+            if len(palA) > len(res):
+                res = palA
+            if len(palB) > len(res):
+                res = palB
+                
         return res
