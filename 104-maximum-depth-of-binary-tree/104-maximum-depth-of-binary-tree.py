@@ -11,5 +11,4 @@ class Solution:
                 return 0
             return 1 + max(solve(node.left), solve(node.right))
         
-        res = solve(root)
-        return res
+        return solve(root)
