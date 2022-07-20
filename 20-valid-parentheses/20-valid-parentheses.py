@@ -1,15 +1,17 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        closing = {")": "(", "}": "{", "]": "["}
         
+        close = {")": "(", "]": "[", "}": "{"}
         stack = []
-        for ch in s:
-            if stack and ch in closing:
-                if stack[-1] != closing[ch]:
+        for c in s:       
+            if stack and c in close:
+                if not stack: return False
+                p = stack.pop()
+
+                if close[c] != p:
                     return False
-                stack.pop()
-            else:
-                stack.append(ch)
-        
+                continue
+            stack.append(c)
         print(stack)
-        return True if not stack else False
+        
+        return not(stack)
