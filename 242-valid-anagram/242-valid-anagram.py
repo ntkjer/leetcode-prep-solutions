@@ -1,14 +1,17 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        
-        chars = Counter(s)
-        target = Counter(t)
-        
-        for c in chars:
-            if c not in target or target[c] != chars[c]:
-                return False
-        
-        if len(chars) != len(target):
+        if len(s) != len(t):
             return False
         
+        freq = [0] * 26
+       
+        
+  
+        for i in range(len(s)):
+            freq[ord(s[i]) - ord('a')] += 1
+            freq[ord(t[i]) - ord('a')] -= 1
+        
+        for f in freq:
+            if f != 0:
+                return False
         return True
