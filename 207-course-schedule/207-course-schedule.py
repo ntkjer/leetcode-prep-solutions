@@ -6,19 +6,19 @@ class Solution:
         for course, pre in prerequisites:
             adj_list[course].add(pre)
             
-        
         visit = {}
-        def dfs(course):
+        def has_cycle(course):
             if course in visit:
                 return visit[course]
             visit[course] = True
-            for nei in adj_list[course]:
-                if dfs(nei):
+            for pre in adj_list[course]:
+                if has_cycle(pre): 
                     return True
             visit[course] = False
+            
         
-        for course in range(numCourses):
-            if dfs(course):
+        for i in range(numCourses):
+            if has_cycle(i): 
                 return False
-        return True
         
+        return True
