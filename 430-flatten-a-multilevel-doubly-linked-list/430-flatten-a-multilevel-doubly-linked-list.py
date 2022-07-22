@@ -11,26 +11,22 @@ class Node:
 class Solution:
     def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
         if not head: return head
+        res = list()
         
-        nodes = []
-        
-        def dfs(node):
-            if not node:
-                return
-            
-            nodes.append(Node(node.val))
-            dfs(node.child)
-            dfs(node.next)
-            return
+        def solve(node):
+            if not node: return
+            res.append(Node(node.val))
+            solve(node.child)
+            solve(node.next)
             
             
-        
-        dfs(head)
-        new_head, prev_head = nodes[0], nodes[0]
-        
-        for i in range(1, len(nodes)):
-            nodes[i].prev = prev_head
-            prev_head.next = nodes[i]
-            prev_head = prev_head.next
-
-        return new_head
+        solve(head)
+        prev_head = res[0]
+        next_head = res[0]
+        for i in range(1, len(res)):
+            next_head = res[i]
+            prev_head.next = next_head
+            next_head.prev = prev_head
+            prev_head = next_head
+            
+        return res[0]
