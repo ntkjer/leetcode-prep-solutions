@@ -3,9 +3,9 @@ class Solution:
         words = set(wordDict)
         dp = [False for _ in range(len(s) + 1)]
         dp[0] = True
+        
         for i in range(1, len(dp)):
-            for j in range(i + 1):
-                print(s[j: i], dp[j])
+            for j in range(i):
                 if dp[j] and s[j: i] in words:
                     dp[i] = True
         
