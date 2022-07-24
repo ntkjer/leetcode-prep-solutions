@@ -2,17 +2,16 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = list()
         
-        def solve(idx, partial, curr):
-            if idx >= len(candidates) or curr > target:
+        def backtrack(idx, curr, partial=[]):
+            if curr > target or idx >= len(candidates):
                 return
             if curr == target:
                 res.append(partial[:])
                 return
             partial.append(candidates[idx])
-            solve(idx, partial, curr + candidates[idx])
+            backtrack(idx, curr + candidates[idx], partial)
             partial.pop()
-            solve(idx + 1, partial, curr)
-            return
+            backtrack(idx + 1, curr, partial)
         
-        solve(0, [], 0)
+        backtrack(0, 0, [])
         return res
