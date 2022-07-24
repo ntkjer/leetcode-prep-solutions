@@ -2,17 +2,17 @@ class Solution:
     def countSubstrings(self, s: str) -> int:
         
         
-        dp = [[False for _ in range(len(s))] for _ in range(len(s))]
+        
+        def build_pal(i, j):
+            res = 0
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                i -=1
+                j += 1
+                res += 1
+            return res
+        
         res = 0
-        
         for i in range(len(s)):
-            dp[i][i] = True
-            res += 1
-        
-        for i in range(len(s) - 1, -1, -1):
-            for j in range(i + 1, len(s)):
-                if s[i] == s[j] and (dp[i + 1][j - 1] or j - i == 1):
-                    dp[i][j] = True
-                    res += 1
-        
+            res += build_pal(i, i) + build_pal(i, i + 1)
+            
         return res
