@@ -3,8 +3,8 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        
         rowZero, colZero = False, False
+        
         rows, cols = len(matrix), len(matrix[-1])
         
         for r in range(rows):
@@ -17,16 +17,16 @@ class Solution:
                     
                     matrix[r][0] = matrix[0][c] = 0
         
+  
         for r in range(1, rows):
             for c in range(1, cols):
                 if not matrix[0][c] or not matrix[r][0]:
                     matrix[r][c] = 0
-        
+       
         if rowZero:
             for c in range(cols):
                 matrix[0][c] = 0
-        
+            
         if colZero:
             for r in range(rows):
                 matrix[r][0] = 0
-                
