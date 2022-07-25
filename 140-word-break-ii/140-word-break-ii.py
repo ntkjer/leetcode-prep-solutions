@@ -1,34 +1,40 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        res = list()
         trie = {}
         end = "$"
         
         for word in wordDict:
-            node = trie
+            root = trie
             for ch in word:
-                if ch not in node:
-                    node[ch] = {}
-                node = node[ch]
-            node[end] = word
+                if ch not in root:
+                    root[ch] = {}
+                root = root[ch]
+            root[end] = word
         
         
-        
-        def backtrack(word, partial):
-            root = trie            
-            for i, char in enumerate(word):
+        res = list()
+        def backtrack(word="", partial=[]):
+            root = trie
+            for i, ch in enumerate(word):
                 if end in root:
-                    backtrack(word[i:], partial + [root[end]])
+                    partial.append(root[end])
+                    backtrack(word[i:], partial)
+                    partial.pop()
                     
-                if char not in root:
+                if ch not in root:
                     return
-                root = root[char]
+                
+                root = root[ch]
                 
             if end in root:
-                res.append(" ".join(partial + [root[end]]))
+                partial.append(root[end])
+                res.append(" ".join(partial))
+                partial.pop()
+                
+        root = trie
+        backtrack(s, [])
+        print(res)
+        return res
                 
         
         
-        root = trie
-        backtrack(s, [])
-        return res
