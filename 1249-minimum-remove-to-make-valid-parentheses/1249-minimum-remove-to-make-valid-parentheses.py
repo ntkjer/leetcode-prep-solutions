@@ -1,27 +1,30 @@
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
         
-        indices = set()
         stack = []
-        for i, c in enumerate(s):
-            if c not in "()":
+        indices = set()
+        parens = set()
+        parens.add("(")
+        parens.add(")")
+        
+        for i, ch in enumerate(s):
+            if ch not in parens:
                 continue
             
-            if c == "(":
+            if ch == "(":
                 stack.append(i)
             elif not stack:
-                indices.add(i)
-            else:
-                stack.pop()
+                indices.add(i) # found a matching char but no space for 'validity'
+            else: 
+                stack.pop() # ) and matching (
             
-        for x in stack:
-            indices.add(x)
-            
-        res = list()
+        for i in stack:
+            indices.add(i)
         
-        for i, c in enumerate(s):
+        res = list()
+        for i in range(len(s)):
             if i not in indices:
-                res.append(c)
+                res.append(s[i])
                 
         return "".join(res)
-                
+    
