@@ -7,25 +7,31 @@
 class Solution:
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         
-        if not root:
-            return root
+        if not root: return []
         
         columns = {}
         q = collections.deque()
-        q.append([root, 0])
-        res = list()
-        min_col = float('inf')
-        max_col = float('-inf')
+        
+        q.append((root, 0))
+        min_range = 0
+        max_range = 0
         
         while q:
-            node, column = q.popleft()
+            node, level = q.popleft()
             
-            if node:
-                columns[column] = columns.get(column, []) + [node.val]
-                min_col = min(min_col, column)
-                max_col = max(max_col, column)
-                
-                q.append((node.left, column - 1))
-                q.append((node.right, column + 1))
-                
-        return [columns[x] for x in range(min_col, max_col + 1)]
+            if not node:
+                continue
+            
+            columns[level] = columns.get(level, []) + [node.val]
+            
+            min_range = min(min_range, level)
+            max_range = max(max_range, level)
+            
+            q.append((node.left, level - 1))
+            q.append((node.right, level + 1))
+            
+        res = list()
+        for i in range(min_range, max_range + 1):
+            res.append(columns[i])
+            
+        return res
