@@ -1,5 +1,6 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        
         trie = {}
         end = "$"
         
@@ -11,30 +12,26 @@ class Solution:
                 root = root[ch]
             root[end] = word
         
-        
         res = list()
-        def backtrack(word="", partial=[]):
+        
+        def backtrack(word=s, partial=[]):
             root = trie
-            for i, ch in enumerate(word):
+            for idx, char in enumerate(word):
                 if end in root:
                     partial.append(root[end])
-                    backtrack(word[i:], partial)
+                    backtrack(word[idx:], partial)
                     partial.pop()
                     
-                if ch not in root:
+                if char not in root:
                     return
-                
-                root = root[ch]
-                
+                  
+                root = root[char]
             if end in root:
                 partial.append(root[end])
                 res.append(" ".join(partial))
                 partial.pop()
                 
+            
         root = trie
-        backtrack(s, [])
-        print(res)
+        backtrack()
         return res
-                
-        
-        
