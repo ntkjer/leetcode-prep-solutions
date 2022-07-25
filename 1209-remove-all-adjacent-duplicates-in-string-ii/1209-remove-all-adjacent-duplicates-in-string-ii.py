@@ -1,25 +1,20 @@
 class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
-        if not s: return s
-        if not k: return s
+        stack = [] # character, freq
         
-        stack = [] # [char, idx]
-        for idx, char in enumerate(s):
-            if not stack or stack[-1][0] != char:
-                stack.append([char, 1])
+        
+        for c in s:
+            if not stack or stack[-1][0] != c:
+                stack.append([c, 1])
                 continue
-            if stack[-1][0] == char:
-                prevChar, freq = stack.pop()
-                if freq + 1 == k: # found the kth element, delete
-                    continue
-                stack.append([char, freq + 1])
-        res = list()
-       
-        while stack:
-            char, freq = stack.pop()
-            res += (char) * freq
-            
-        res.reverse() # stack is reversed
-        return "".join(res)
                 
-                    
+            if stack and stack[-1][0] == c:
+                stack[-1][1] += 1
+                if stack[-1][1] >= k:
+                    stack.pop()
+                  
+        res = ""
+        for i in range(len(stack)):
+            res += stack[i][0] * int(stack[i][1])
+        
+        return res
