@@ -1,15 +1,22 @@
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
-        
+        res = list()
         nums.sort()
-        res = set()
-        def backtrack(start=0, partial=[]):
-            if start == len(nums):
-                res.add(tuple(partial.copy()))
+        
+        def backtrack(i, partial):
+            if i == len(nums):
+                res.append(partial[:])
                 return
-            partial.append(nums[start])
-            backtrack(start + 1, partial)
+            
+            partial.append(nums[i])
+            backtrack(i + 1, partial)
             partial.pop()
-            backtrack(start + 1, partial)
-        backtrack()
+            
+            # remove duplicate entries
+            while i + 1 < len(nums) and nums[i] == nums[i + 1]:
+                i += 1
+            
+            backtrack(i + 1, partial)
+        
+        backtrack(0, [])
         return res
