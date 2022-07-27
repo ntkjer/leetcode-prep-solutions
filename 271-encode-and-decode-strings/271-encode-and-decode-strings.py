@@ -3,33 +3,29 @@ class Codec:
         """Encodes a list of strings to a single string.
         """
         res = list()
-        for s in strs:
-            res.append(str(len(s)) + "$" + s)
-            
-        return "".join(res) 
-    
+        delim = "$"
+        for w in strs:
+            res.append(str(len(w)) + delim + w)
+        return "".join(res)
+
     def decode(self, s: str) -> List[str]:
         """Decodes a single string to a list of strings.
         """
-        res = list()
+        delim = "$"
+        N = len(s)
         i = 0
         j = 0
-        n = len(s)
-        while i < n and j < n:
-         
-            while s[i] != "$":
+        res = list()
+        while i < N:
+            while s[i] != delim:
                 i += 1
-                
+    
             length = int(s[j: i])
             
-            res.append(s[i + 1: i + length + 1])
-        
-            i = i + length + 1
+            res.append(s[i + 1: length + i + 1])
+            i = length + i + 1
             j = i
-            
-            
         return res
-        
 
 
 # Your Codec object will be instantiated and called as such:
