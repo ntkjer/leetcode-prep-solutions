@@ -8,28 +8,30 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-
-        slow, fast = head, head
+        
+        dummy = ListNode(next=head)
+        
+        slow, fast = dummy, dummy
+        
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-        
+            
         second = slow.next
+        slow.next = None
+        
         prev = None
-        while second:
+        while second: 
             tmp = second.next
             second.next = prev
             prev = second
             second = tmp
-       
-        slow.next = None
+            
         first = head
         second = prev
-        
         while first and second:
             tmp1, tmp2 = first.next, second.next
             first.next = second
             second.next = tmp1
             first, second = tmp1, tmp2
-        
         
