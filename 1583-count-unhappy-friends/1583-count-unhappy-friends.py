@@ -1,26 +1,23 @@
 class Solution:
     def unhappyFriends(self, n: int, preferences: List[List[int]], pairs: List[List[int]]) -> int:
-        seen = {}
-        for pair in pairs:
-            seen[pair[0]] = pair[1]
-            seen[pair[1]] = pair[0]
         
-        ranked_preferences = {}
-        for i in range(len(preferences)):
-            for preference in preferences[i]:
-                if preference == seen[i]:
+        graph = defaultdict(list)
+        
+        for (u, v) in pairs:
+            for pref in preferences[u]:
+                if pref == v:
                     break
-                if i not in ranked_preferences:
-                    ranked_preferences[i] = set()
-                    
-                ranked_preferences[i].add(preference)
-                
+                graph[u].append(pref)
+        
+            for pref in preferences[v]:
+                if pref == u:
+                    break
+                graph[v].append(pref)
+        
         res = 0
-        for person, preferences in ranked_preferences.items():
-            for friend in preferences:
-                if friend in ranked_preferences and person in ranked_preferences[friend]:
+        for node in list(graph.keys()):
+            for cur_pref in graph[node]:
+                if node in graph[cur_pref]:
                     res += 1
-                    break
-        
-        
+                    break # can onkly be unhappy once per person!
         return res
