@@ -10,7 +10,7 @@ class OrderedStream:
         while self.ptr in self.data:
             res.append(self.data[self.ptr])
             self.ptr += 1
-            
+        
         return res
 
 # Your OrderedStream object will be instantiated and called as such:
