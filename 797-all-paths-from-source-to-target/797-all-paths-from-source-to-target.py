@@ -10,7 +10,6 @@ class Solution:
                 path.append(nei)
                 backtrack(nei, path)
                 path.pop()
-            return
         
         backtrack(0, [0])
         return res
