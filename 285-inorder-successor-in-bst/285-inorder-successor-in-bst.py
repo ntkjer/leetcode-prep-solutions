@@ -8,12 +8,13 @@
 class Solution:
     def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> Optional[TreeNode]:
         
-        # left-most right child of the parenet of p
-        successor = None
+        res = None
         while root:
+            
             if p.val >= root.val:
                 root = root.right
             else:
-                successor = root
+                res = root
                 root = root.left
-        return successor
+        
+        return res
