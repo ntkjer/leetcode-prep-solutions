@@ -1,25 +1,37 @@
 class Solution:
     def invalidTransactions(self, transactions: List[str]) -> List[str]:
-        N = len(transactions)
-        res = list()
-        invalid = [False] * N
-        parsed_transactions = [x.split(",") for x in transactions]
         
-        for i in range(N):
-            if int(parsed_transactions[i][2]) > 1000:
-                invalid[i] = True
+        people = []
+        time = []
+        amount = []
+        location = []
         
         
-        for i in range(N):
-            for j in range(i + 1, N):
-                name1, time1, city1 = parsed_transactions[i][0], int(parsed_transactions[i][1]), parsed_transactions[i][3]
-                name2, time2, city2 = parsed_transactions[j][0], int(parsed_transactions[j][1]), parsed_transactions[j][3]
-                if name1 == name2 and 0 <= abs(time1 - time2) <= 60 and city1 != city2:
-                    invalid[i] = True
+        for transaction in transactions:
+            person, t, amt, city = transaction.split(',')
+            people.append(person)
+            time.append(t)
+            amount.append(amt)
+            location.append(city)
+            
+        n = len(transactions)
+        invalid = [False] * n
+        
+        for i in range(n):
+            for j in range(i + 1, n):
+                if int(amount[j]) > 1000:
                     invalid[j] = True
-        
-        for i in range(N):
+                if int(amount[i]) > 1000:
+                    invalid[i] = True
+                if people[i] == people[j]:
+                    time_diff = abs(int(time[j]) - int(time[i]))
+                    if time_diff <= 60 and location[i] != location[j]:
+                        invalid[i] = True
+                        invalid[j] = True
+                        
+        res = list()        
+        for i in range(n):
             if invalid[i]:
                 res.append(transactions[i])
-                
+                        
         return res
