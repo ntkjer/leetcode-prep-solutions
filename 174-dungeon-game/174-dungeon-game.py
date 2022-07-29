@@ -1,35 +1,40 @@
 class Solution:
     def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
         
-        m, n = len(dungeon), len(dungeon[-1])
         
-        dp = [[float('inf') for _ in range(n)] for _ in range(m)]
-        def valid_pos(x, y):
-            if not(0 <= x < m) or not(0 <= y < n): 
+        rows, cols = len(dungeon), len(dungeon[-1])
+        
+        dp = [[float('inf') for _ in range(cols)] for _ in range(rows)]
+
+        def valid_pos(i, j):
+            if not (0 <= i < rows) or not (0 <= j < cols):
                 return False
             return True
         
-        for i in range(m - 1, -1, -1):
-            for j in range(n - 1, -1, -1):
-                curr = dungeon[i][j]
+        for i in range(rows - 1, -1, -1):
+            for j in range(cols - 1, -1, -1):
+                
+                curr_cell = dungeon[i][j]
+                
                 
                 if valid_pos(i + 1, j):
-                    up = max(1, dp[i + 1][j] - curr)
+                    up = max(dp[i + 1][j] - curr_cell, 1)  
                 else:
                     up = float('inf')
                 
                 if valid_pos(i, j + 1):
-                    left = max(1, dp[i][j + 1] - curr)
+                    down = max(dp[i][j + 1] - curr_cell, 1)
                 else:
-                    left = float('inf')
+                    down = float('inf')
                 
-                next_health = min(up, left)
-                if next_health != float('inf'):
-                    dp[i][j] = next_health
+                candidate = min(up, down)
+                if candidate != float('inf'):
+                    dp[i][j] = candidate
                 else:
-                    if curr >= 0:
+                    if curr_cell >= 0:
                         dp[i][j] = 1
                     else:
-                        dp[i][j] = 1 - curr
+                        dp[i][j] = 1 - curr_cell
                         
+        
         return dp[0][0]
