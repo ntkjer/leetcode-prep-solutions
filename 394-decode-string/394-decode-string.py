@@ -1,26 +1,25 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        # perhaps a stack?
-        # aaa2[b
         
-        # tmp = bc
-        # tmp = bcbc
-        # aaabcbc
         
+        # 3 [ a 2 [ c
+        # 3 [ a c c 
+        # accaccacc
         stack = []
         for c in s:
-            if c == "]": # eval
+            if c == "]":
                 tmp = ""
-                while stack and stack[-1] != "[":
+                while stack and stack[-1].isalpha():
                     tmp = stack.pop() + tmp
-                stack.pop() # remove "["
                 
+                stack.pop()
                 freq = ""
                 while stack and stack[-1].isdigit():
                     freq = stack.pop() + freq
                 
-                tmp = int(freq) * tmp
-                stack.append(tmp)
+                stack.append(int(freq) * tmp)
+                
+                    
             else:
                 stack.append(c)
                 
