@@ -1,25 +1,22 @@
 class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
+        # abcd 
         
-        # use a stack and have each item as (c, freq)
+        stack = [] # c, freq
         
-        # pop last item when freq >= k
-        
-        stack = []
         
         for c in s:
-            if not stack or stack[-1][0] != c:
-                stack.append([c, 1])
+            while stack and stack[-1][1] >= k:
+                stack.pop()    
+                
+            if stack and c == stack[-1][0]:
+                stack[-1][1] += 1
             else:
-                if stack[-1][0] == c:
-                    stack[-1][1] += 1
-                    if stack[-1][1] >= k:
-                        stack.pop()
-                        
-        res = list()
-        for char, freq in stack:
-            
-            res.append(freq * char)
+                stack.append([c, 1])
         
-        return "".join(res)
+        res = list()
+        for c, f in stack:
+            if f < k:
+                res.append(c * f)
             
+        return "".join(res)
