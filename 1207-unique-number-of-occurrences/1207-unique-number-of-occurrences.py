@@ -1,16 +1,12 @@
 class Solution:
     def uniqueOccurrences(self, arr: List[int]) -> bool:
         counts = {}
-        
         for num in arr:
             counts[num] = counts.get(num, 0) + 1
+        unique = set()
         
-        
-        freqSeen = set()
         for num, freq in counts.items():
-            if freq in freqSeen:
+            if freq in unique: 
                 return False
-            
-            freqSeen.add(freq)
-            
+            unique.add(freq)
         return True
