@@ -5,34 +5,51 @@
 #         self.next = next
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode()
-        curr = dummy
+        node = ListNode()
+        dummy = ListNode(next=node)
         carry = 0
         
         while l1 and l2:
-            tmp = l1.val + l2.val + carry
-            carry = 0
-            if tmp >= 10:
-                carry = tmp // 10
-                tmp = tmp % 10
+            
+            curr = l1.val + l2.val + carry
+
+            if curr >= 10:
+                carry = 1
+            else:
+                carry = 0
                 
-            curr.next = ListNode(tmp)
-            curr = curr.next
+            curr = ListNode(curr % 10)
+            
+            node.next = curr
+            
+            node = node.next
+            
             l1, l2 = l1.next, l2.next
+        
+        while l1:
+            curr = l1.val + carry
+            if curr >= 10:
+                carry = 1
+            else:
+                carry = 0
+            curr = ListNode(curr % 10)
+            node.next = curr
+            node = node.next
+            l1 = l1.next
             
-        l3 = l1 or l2
-        while l3:
-            tmp = l3.val + carry
-            carry = 0
-            if tmp >= 10:
-                carry = tmp // 10
-                tmp = tmp % 10
-            curr.next = ListNode(tmp)
-            curr = curr.next
-            l3 = l3.next
-            
+        while l2:
+            curr = l2.val + carry
+            if curr >= 10:
+                carry = 1
+            else:
+                carry = 0
+            curr = ListNode(curr % 10)
+            node.next = curr
+            node = node.next
+            l2 = l2.next
+        
         if carry:
-            curr.next = ListNode(1)
-            curr = curr.next
-            
-        return dummy.next
+            node.next = ListNode(1)
+            node = node.next
+        
+        return dummy.next.next
