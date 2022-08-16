@@ -1,24 +1,22 @@
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
-        if not digits: return []
-        #combinations = ("0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz")
-        res = list()
-        comb = {'0': '0', '1': '1', '2': 'abc', '3':'def', 
-                '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', 
-                '8': 'tuv', '9': 'wxyz'}
-
-        def backtrack(i, partial):
-            if i == len(partial):
+        if not digits: return ""
+        
+        combos = {"0": set(), "1": set(), "2": set(["a", "b", "c"]), "3": set(["d", "e", "f"]),
+                 "4": set(["g", "h", "i"]), "5": set(["j", "k", "l"]), "6": set(["m", "n", "o"]),
+                 "7": set(["p", "q", "r", "s"]), "8": set(["t", "u", "v"]), "9": set(["w", "x", "y", "z"])}
+        
+        def backtrack(start=0, partial=[]):
+            if start == len(digits):
                 res.append("".join(partial[:]))
+            if start >= len(digits):
                 return
             
-            for c in comb[digits[i]]:
-                partial[i] = c
-                backtrack(i + 1, partial)
+            for letter in combos[digits[start]]:
+                partial.append(letter)
+                backtrack(start + 1)
+                partial.pop()
                 
-
-            
-            
-        partial = ["0" for _ in range(len(digits))]
-        backtrack(0, partial)
+        res = list()
+        backtrack()
         return res
