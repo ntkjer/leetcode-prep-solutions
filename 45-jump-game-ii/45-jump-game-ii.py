@@ -5,11 +5,10 @@ class Solution:
         end = 0
         
         for i in range(len(nums) - 1):
-            furthest = max(furthest, i + nums[i])
+            furthest = max(furthest, nums[i] + i)
             
             if i == end:
                 jumps += 1
                 end = furthest
-                
         
         return jumps
