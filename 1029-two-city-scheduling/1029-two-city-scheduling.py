@@ -3,11 +3,14 @@ class Solution:
         
         costs.sort(key = lambda i: i[0] - i[1])
         
+        total_cost = 0
+        
         n = len(costs) // 2
         
-        total = 0
-        for i in range(n):
-            total += costs[i][0] + costs[i + n][1] 
+        i = 0
         
+        while i < n:
+            total_cost += costs[i][0] + costs[i + n][1]
+            i += 1
         
-        return total
+        return total_cost
