@@ -5,23 +5,26 @@ class RandomizedSet:
         self.items = {}
 
     def insert(self, val: int) -> bool:
-        if val in self.items: return False
-        idx = len(self.items)
-        self.list.append(val)
+        if val in self.items:
+            return False
+        idx = len(self.list)
         self.items[val] = idx
+        self.list.append(val)
         return True
 
     def remove(self, val: int) -> bool:
-        if val not in self.items: 
+        if val not in self.items:
             return False
-        removeIdx = self.items[val]
+        idx = self.items[val]
         lastElem = self.list[-1]
-        self.list[removeIdx] = lastElem
-        self.list.pop()
-        self.items[lastElem] = removeIdx
-        del self.items[val]
-        return True
         
+        self.items[lastElem] = idx
+        self.list[idx], self.list[-1] = lastElem, val
+        
+        del self.items[val]
+        self.list.pop()
+        return True
+
     def getRandom(self) -> int:
         return random.choice(self.list)
 
