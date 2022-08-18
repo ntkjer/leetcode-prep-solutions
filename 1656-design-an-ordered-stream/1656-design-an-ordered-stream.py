@@ -1,18 +1,19 @@
 class OrderedStream:
 
     def __init__(self, n: int):
-        self.ptr = 1
-        self.values = {}
+        self.idx = 1
+        self.stream = {}
         
+
     def insert(self, idKey: int, value: str) -> List[str]:
-        self.values[idKey] = value
         res = list()
-        while self.ptr in self.values:
-            res.append(self.values[self.ptr])
-            self.ptr += 1
+        self.stream[idKey] = value
+        while self.idx in self.stream:
+            res.append(self.stream[self.idx])
+            self.idx += 1
+            
         return res
-
-
+        
 # Your OrderedStream object will be instantiated and called as such:
 # obj = OrderedStream(n)
 # param_1 = obj.insert(idKey,value)
