@@ -1,5 +1,6 @@
 class Solution:
     def jump(self, nums: List[int]) -> int:
+        
         furthest = 0
         jumps = 0
         end = 0
@@ -10,5 +11,5 @@ class Solution:
             if i == end:
                 jumps += 1
                 end = furthest
-        
+            
         return jumps
