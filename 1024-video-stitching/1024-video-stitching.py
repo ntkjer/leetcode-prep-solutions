@@ -1,18 +1,19 @@
 class Solution:
     def videoStitching(self, clips: List[List[int]], time: int) -> int:
+        
+        prev = -1
         furthest = 0
-        prevEnd = float('-inf')
         count = 0
         
         clips.sort()
         for start, end in clips:
-            if furthest >= time or start > furthest:
+            if start > furthest or furthest >= time:
                 break
             
-            if prevEnd < start <= furthest:
-                prevEnd = furthest
-                count += 1            
+            if prev < start <= furthest:
+                prev = furthest 
+                count += 1
+            
             furthest = max(furthest, end)
-        
-        
+             
         return count if furthest >= time else -1
