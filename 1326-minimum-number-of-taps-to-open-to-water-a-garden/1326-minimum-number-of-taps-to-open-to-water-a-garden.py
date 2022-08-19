@@ -1,23 +1,32 @@
 class Solution:
     def minTaps(self, n: int, ranges: List[int]) -> int:
         
-        right = [0] * (len(ranges))
+        maxRanges = [0] * len(ranges)
         
-        for i, dist in enumerate(ranges):
-            left = max(0, i - dist)
-            right[left] = max(right[left], dist + i)
+        for i, r in enumerate(ranges):
+            leftMost = max(0, i - r)
+            rightMost = max(maxRanges[leftMost], i + r)
         
-   
+            maxRanges[leftMost] = rightMost
         
+               
         end = 0
         taps = 0
-        start = 0
-        while end < n:
-            start, end = end + 1, max(right[start: end + 1])
+        furthest = 0
+        
+        for i, r in enumerate(maxRanges):
+            if end == n:
+                break
             
-            if start > end: 
-                return - 1
+            if i > end:
+                return -1
             
-            taps += 1
+            furthest = max(r, furthest)
             
+            if end == i:
+                taps += 1
+                end = furthest
+        
         return taps
+        
+        
