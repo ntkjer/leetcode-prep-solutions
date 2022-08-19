@@ -1,14 +1,19 @@
 class Solution:
     def videoStitching(self, clips: List[List[int]], time: int) -> int:
-        # find a covered interval that reaches start to time
+        
         clips.sort()
-        prev_end, end, count = -1, 0, 0
-        for cur_start, cur_end in clips:
-            if cur_start > end or end >= time: 
+        
+        prevEnd = float("-inf")
+        count = 0
+        end = 0
+        for curStart, curEnd in clips:
+            if end >= time or curStart > end:
                 break
-            if prev_end < cur_start <= end:
-                prev_end = end
+            
+            if prevEnd < curStart <= end:
+                prevEnd = end
                 count += 1
-            end = max(end, cur_end)
+            
+            end = max(end, curEnd)
         
         return count if end >= time else -1
