@@ -1,50 +1,67 @@
 class Node:
-    def __init__(self, key=None, val=None, prev=None, next=None):
+    """
+    A doubly linked node. 
+    Initialized to point prev and next to None.
+    """
+    def __init__(self, key=None, value=None, prev=None, next=None):
         self.key = key
-        self.val = val
-        self.next = next
+        self.val = value
         self.prev = prev
-
+        self.next = next
+        
+    
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.cache = {}
-        self.left = Node()
-        self.right = Node()
+        self.cap = capacity
+        self.items = {}
+        self.left = Node() # LRU 
+        self.right = Node() # MRU
         self.left.next = self.right
         self.right.prev = self.left
 
-    def _delete(self, node: Node):
-        prv, nxt = node.prev, node.next
-        prv.next, nxt.prev = nxt, prv
-        
     def _insert(self, node: Node):
-        prv, nxt = self.right.prev, self.right
-        node.next, node.prev = nxt, prv
-        prv.next, nxt.prev = node, node
+        prv, nxt = self.right.prev, self.right.next
+        prv.next = node
+        node.prev = prv
+        node.next = self.right
+        self.right.prev = node
         
         
+    def _remove(self, node: Node):
+        prv, nxt = node.prev, node.next
+        prv.next = nxt
+        nxt.prev = prv
+    
+    
     def get(self, key: int) -> int:
-        if key not in self.cache:
+        if key not in self.items:
             return -1
-        self._delete(self.cache[key])
-        self._insert(self.cache[key])
-        return self.cache[key].val
-
+        
+        # get the node and update as MRU         
+        node = self.items[key]
+        self._remove(node)
+        self._insert(node)
+        return self.items[key].val
+        
+        
+        
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            self._delete(self.cache[key])
+        if key in self.items:
+            self._remove(self.items[key])
             
-        curr = Node(key, value)
-        self._insert(curr)
-        self.cache[key] = curr
+        node = Node(key, value)
+        self.items[key] = node
+        self._insert(node)
         
-        if len(self.cache) > self.capacity:
+        if len(self.items) > self.cap:
             lru = self.left.next
-            self._delete(lru)
-            del self.cache[lru.key]
+            self._remove(lru)
+            del self.items[lru.key]
+            
+            
         
+
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
