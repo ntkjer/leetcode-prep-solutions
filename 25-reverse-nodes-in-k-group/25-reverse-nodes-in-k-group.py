@@ -7,16 +7,18 @@ class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         
         def reverseK(node, k):
-            prev = None
+            """ Given a node: ListNode, and an integer k
+                returns k reversed nodes.
+            """
+            rev = None
             while node and k:
                 tmp = node.next
-                node.next = prev
-                prev = node
+                node.next = rev
+                rev = node
                 node = tmp
                 k -= 1
-            return prev
+            return rev
         
-        # count k nodes 
         count = 0
         curr = head
         while count < k and curr:
@@ -24,7 +26,6 @@ class Solution:
             count += 1
             
         if count == k:
-        
             rev = reverseK(head, k)
             head.next = self.reverseKGroup(curr, k)
             return rev
