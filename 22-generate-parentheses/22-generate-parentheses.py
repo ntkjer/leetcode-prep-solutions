@@ -1,24 +1,21 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
+        
         res = list()
-        partial = []
-        def backtrack(left=0, right=0):
-            if left == right == n:
-                res.append("".join(partial))
+        def backtrack(l, r, partial):
+            if l == n == r:
+                res.append("".join(partial[:]))
                 return
             
-            if left < n:
+            if l < n:
                 partial.append("(")
-                backtrack(left + 1, right)
+                backtrack(l + 1, r, partial)
                 partial.pop()
-            
-            if right < left:
+                
+            if r < l:
                 partial.append(")")
-                backtrack(left, right + 1)
+                backtrack(l, r + 1, partial)
                 partial.pop()
                 
-                
-        backtrack(0, 0)
+        backtrack(0, 0, [])
         return res
-
-        
