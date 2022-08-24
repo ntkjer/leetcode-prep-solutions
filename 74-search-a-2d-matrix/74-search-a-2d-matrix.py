@@ -1,15 +1,19 @@
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        
         rows, cols = len(matrix), len(matrix[-1])
         
-        top, bottom = 0, rows - 1
+        top = 0
+        bottom = rows - 1
+        
+        # narrow down range for top and bottom
         
         while top <= bottom:
-            mid = (bottom + top) // 2
-            if matrix[mid][-1] < target:
-                top = mid + 1
-            elif matrix[mid][0] > target:
-                bottom = mid - 1
+            m = (top + bottom) // 2
+            if matrix[m][0] > target:
+                bottom = m - 1
+            elif matrix[m][-1] < target:
+                top = m + 1
             else:
                 break
         
@@ -19,13 +23,12 @@ class Solution:
         row = (top + bottom) // 2
         
         left, right = 0, cols - 1
-        
         while left <= right:
-            mid = (right + left) // 2
-            if matrix[row][mid] == target:
-                return True
-            elif matrix[row][mid] > target:
-                right = mid - 1
+            m = (left + right) // 2
+            if matrix[row][m] > target:
+                right = m - 1
+            elif matrix[row][m] < target:
+                left = m + 1
             else:
-                left = mid + 1
-        return False
+                return True
+        
