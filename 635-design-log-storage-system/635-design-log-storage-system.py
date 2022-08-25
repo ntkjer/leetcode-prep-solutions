@@ -1,20 +1,20 @@
 class LogSystem:
 
     def __init__(self):
-        self.granularityMap = {"Year": 1, "Month": 2, "Day": 3, "Hour": 4, "Minute": 5, "Second": 6}
-        self.logs = {} # store timestamp: id
+        self.granularity_map = {"Year": 1, "Month": 2, "Day": 3, 
+                                "Hour": 4, "Minute": 5, "Second": 6}
+        self.logs = collections.defaultdict(int) # ts : uid
 
     def put(self, id: int, timestamp: str) -> None:
-        key = tuple(timestamp.split(":"))
         self.logs[tuple(timestamp.split(":"))] = id
 
     def retrieve(self, start: str, end: str, granularity: str) -> List[int]:
-        idx = self.granularityMap[granularity]
+        idx = self.granularity_map[granularity]
+        res = list()
+        
         start = tuple(start.split(":")[:idx])
         end = tuple(end.split(":")[:idx])
         
-        
-        res = list()
         
         for ts in self.logs.keys():
             if start <= ts[:idx] <= end:
