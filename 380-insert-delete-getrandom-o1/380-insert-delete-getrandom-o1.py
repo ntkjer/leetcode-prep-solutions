@@ -6,21 +6,20 @@ class RandomizedSet:
 
     def insert(self, val: int) -> bool:
         if val in self.items:
-            return False
-        idx = len(self.list)
-        self.items[val] = idx
+            return False    
+        insert_idx = len(self.list)
+        self.items[val] = insert_idx
         self.list.append(val)
         return True
-
+    
     def remove(self, val: int) -> bool:
         if val not in self.items:
             return False
-        idx = self.items[val]
-        lastElem = self.list[-1]
-        
-        self.items[lastElem] = idx
-        self.list[idx], self.list[-1] = lastElem, val
-        
+        remove_idx = self.items[val]
+        last = self.list[-1]
+        swap_idx = self.items[last]
+        self.list[swap_idx], self.list[remove_idx] = self.list[remove_idx], self.list[swap_idx]
+        self.items[last] = remove_idx
         del self.items[val]
         self.list.pop()
         return True
