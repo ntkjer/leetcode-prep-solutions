@@ -5,20 +5,18 @@ class Solution:
         
         for u, v in pairs:
             for pref in preferences[u]:
-                if v == pref:
-                    break
+                if pref == v: break
                 graph[u].append(pref)
                 
             for pref in preferences[v]:
-                if u == pref:
-                    break
+                if pref == u: break
                 graph[v].append(pref)
-            
         
-        res = 0
+        unhappy = 0
+        
         for node in list(graph.keys()):
             for pref in graph[node]:
                 if node in graph[pref]:
-                    res += 1
+                    unhappy += 1
                     break
-        return res
+        return unhappy
