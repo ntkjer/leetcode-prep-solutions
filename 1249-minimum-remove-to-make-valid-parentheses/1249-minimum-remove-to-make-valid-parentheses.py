@@ -1,34 +1,26 @@
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
         
-        removal = set()
-        stack = [] # c, i
+        stack = [] # this will keep track of current balance ( , )
+        remove = set()
         
         for i, c in enumerate(s):
-            if c.isalpha():
-                continue
-            elif not stack and c == ")":
-                removal.add(i)
-            elif stack and c == ")":
-                stack.pop()
+            if c == ")" and not stack:
+                remove.add(i)
             elif c == "(":
                 stack.append((c, i))
+            elif c == ")":
+                stack.pop()
         
-       
+      
         while stack:
             c, i = stack.pop()
-            removal.add(i)
-        
+            remove.add(i)
+            
         res = list()
-        
-        
         for i in range(len(s)):
-            if i in removal:
+            if i in remove:
                 continue
             res.append(s[i])
-            
+        
         return "".join(res)
-        
-        
-        
-        
