@@ -1,29 +1,29 @@
 class UndergroundSystem:
 
     def __init__(self):
-        self.metrics = defaultdict(list)
-        self.trips = defaultdict(list)
+        self.metrics = {} #(start,end) = [freq, totalTime]
+        self.transactions = {} # id = [station, t]
+        
 
     def checkIn(self, id: int, stationName: str, t: int) -> None:
-        self.trips[id] = [stationName, t]
+        self.transactions[id] = [stationName, t]
         
 
     def checkOut(self, id: int, stationName: str, t: int) -> None:
-        origin, prevTime = self.trips[id]
-        key = tuple([origin, stationName])
-        elapsedTime = t - prevTime
-        
+        prevStation, prevTime = self.transactions[id]
+        key = tuple([prevStation, stationName])
+        time = t - prevTime
         if key not in self.metrics:
-            self.metrics[key] = [elapsedTime, 1]
+            self.metrics[key] = [1, time]
         else:
-            self.metrics[key][0] += (t - prevTime)
-            self.metrics[key][1] += 1
+            self.metrics[key][0] += 1
+            self.metrics[key][1] += time
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        metrics = self.metrics[tuple([startStation, endStation])]
-        total_time, freq = metrics
-        return total_time / freq
-    
+        key = tuple([startStation,endStation])
+        return self.metrics[key][1] / self.metrics[key][0]        
+
+
 # Your UndergroundSystem object will be instantiated and called as such:
 # obj = UndergroundSystem()
 # obj.checkIn(id,stationName,t)
