@@ -1,10 +1,8 @@
-import collections
-import heapq
-
 class Leaderboard:
 
     def __init__(self):
         self.scores = collections.defaultdict(int)
+        
 
     def addScore(self, playerId: int, score: int) -> None:
         self.scores[playerId] += score
@@ -12,15 +10,15 @@ class Leaderboard:
         
     def top(self, K: int) -> int:
         heap = []
-        for score in self.scores.values():
-            heapq.heappush(heap, score)
-            
+        for playerId in self.scores.keys():
+            heapq.heappush(heap, self.scores[playerId])
             if len(heap) > K:
                 heapq.heappop(heap)
-                
+        
         res = 0
         while heap:
             res += heapq.heappop(heap)
+            
         return res
             
         
